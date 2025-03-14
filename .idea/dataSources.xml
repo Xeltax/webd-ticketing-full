@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="webd@localhost" uuid="dd818818-8503-4120-ba46-7c26f970e27f">
+    <data-source source="LOCAL" name="ticketing@localhost" uuid="1cc4fd56-6d98-49b5-9dc4-a3cce3039005">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/webd</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/ticketing</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

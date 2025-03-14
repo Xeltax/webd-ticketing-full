@@ -27,7 +27,9 @@ async function start() {
       process.exit(0);
     });
 
-    console.log("🚀 Microservice User started!");
+    await rabbitMQService.createQueue("get_users_queue");
+    await rabbitMQService.createQueue("get_users_response_queue"); // Nouvelle queue pour la réponse
+
   } catch (error) {
     console.error("❌ Error starting microservice:", error);
     process.exit(1);
