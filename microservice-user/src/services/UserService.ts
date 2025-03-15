@@ -6,6 +6,7 @@ export class UserService {
     private userRepository: UserRepository = new UserRepository();
 
     async createUser(data: UserDTO): Promise<User> {
+        console.log("Creating user with data:", data.email);
         const existingUser = await this.userRepository.getByEmail(data.email);
         if (existingUser) {
             throw new Error("User already exists");

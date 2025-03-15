@@ -17,12 +17,17 @@
   },
   "homepage": "https://github.com/Xeltax/webd-ticketing-full#readme",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
     "prisma": "^6.5.0",
     "ts-node": "^10.9.2"
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
     "@types/amqplib": "^0.10.7",
-    "amqplib": "^0.10.5"
+    "amqplib": "^0.10.5",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "jsonwebtoken": "^9.0.2"
   }
 }

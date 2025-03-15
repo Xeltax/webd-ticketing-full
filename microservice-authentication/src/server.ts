@@ -1,12 +1,11 @@
-import { UserController } from "./controllers/UserController";
 import { rabbitMQService } from "./services/rabbitmqService";
+import {AuthenticationController} from "./Controllers/AuthenticationController";
 
 async function start() {
     try {
         await rabbitMQService.connect();
-        await UserController.handleGetUsers();
-        await UserController.handleCreateUser();
-        await UserController.handleGetUserByEmail();
+        await AuthenticationController.handleLogin();
+        await AuthenticationController.handleRegister();
 
 
         process.on("SIGINT", async () => {
@@ -15,10 +14,10 @@ async function start() {
             process.exit(0);
         });
 
-        await rabbitMQService.createQueue("get_users_queue");
-        await rabbitMQService.createQueue("get_users_response_queue");
-        await rabbitMQService.createQueue("get_user_by_email_queue");
-        await rabbitMQService.createQueue("get_user_by_email_response_queue");
+        await rabbitMQService.createQueue("register_users_queue");
+        await rabbitMQService.createQueue("register_users_response_queue");
+        await rabbitMQService.createQueue("login_user_queue");
+        await rabbitMQService.createQueue("login_user_response_queue");
         await rabbitMQService.createQueue("create_users_queue");
         await rabbitMQService.createQueue("create_users_response_queue");
         console.log("🚀 Microservice User started!");

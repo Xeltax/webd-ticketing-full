@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { rabbitMQService } from "./service/rabbitmqService";
 import userRoutes from "./routes/UserRoutes";
+import AuthRoutes from "./routes/AuthRoutes";
 
 const app = express();
 const PORT = 5000;
@@ -14,7 +15,7 @@ app.use(cors({
 app.use(express.json());
 app.use("/user", userRoutes);
 // app.use("/bankAccount", BankingAccountRoutes);
-// app.use("/auth", AuthRoutes);
+app.use("/auth", AuthRoutes);
 // app.use("/transfer", TransferRoutes);
 
 async function start() {
