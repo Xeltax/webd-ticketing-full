@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    border: 2px solid #dadada;
+    border-radius: 5px;
+    min-width: 70vw;
+}
+
+.imgWrapper {
+    width: 20rem;
+}
+
+.imgWrapper img {
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.content {
+    padding: 16px;
+}
+
+.eventTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
