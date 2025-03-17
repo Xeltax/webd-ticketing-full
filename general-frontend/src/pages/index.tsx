@@ -1,5 +1,3 @@
-import Head from "next/head";
-import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import {Button, Carousel, Flex} from 'antd';
@@ -69,7 +67,7 @@ export default function Page() {
                   <p>Course</p>
               </div>
           </Carousel>
-          <Flex justify={"center"} vertical={true} align={"center"} gap={12} style={{marginTop : "2rem"}}>
+          <Flex justify={"center"} vertical={true} align={"center"} gap={12} style={{margin : "2rem 0"}}>
               <Title style={{fontWeight : "700"}} level={2}>Les derniers événement</Title>
               {data.map((item, index) => {
                     return <EventDisplay key={index} imgUrl={item.imgUrl} title={item.title} description={item.description} category={item.category} date={item.date} location={item.location}/>

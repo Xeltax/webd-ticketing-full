@@ -1,6 +1,7 @@
 import styles from './eventDisplay.module.css';
-import {CalendarOutlined, HeartOutlined, PushpinOutlined} from "@ant-design/icons";
-import {Popover, Tag} from "antd";
+import {CalendarOutlined, EyeOutlined, HeartOutlined, PushpinOutlined, SendOutlined} from "@ant-design/icons";
+import {Button, Popover, Tag} from "antd";
+import EyeIcon from "next/dist/client/components/react-dev-overlay/ui/icons/eye-icon";
 
 const EventDisplay = (props : {title: string, description : string, imgUrl : string, category : string, date : string, location : string}) => {
 
@@ -26,19 +27,23 @@ const EventDisplay = (props : {title: string, description : string, imgUrl : str
             </div>
             <div className={styles.content}>
                 <p className={styles.eventTitle}>{props.title}</p>
-                <Popover content={<p>Category</p>}>
+                <Popover content={<p>Categorie</p>}>
                     <Tag icon={<HeartOutlined />} color={categoryColor()}>{props.category}</Tag>
                 </Popover>
 
                 <p>{props.description}</p>
 
-                <div>
-                    <Popover content={<p>Date de l'événement</p>}>
-                        <Tag icon={<CalendarOutlined />}>{props.date}</Tag>
-                    </Popover>
-                    <Popover content={<p>Lieu de l'événement</p>}>
-                        <Tag icon={<PushpinOutlined />}>{props.location}</Tag>
-                    </Popover>
+                <div className={styles.footer}>
+                    <div>
+                        <Popover content={<p>Date de l'événement</p>}>
+                            <Tag icon={<CalendarOutlined />}>{props.date}</Tag>
+                        </Popover>
+                        <Popover content={<p>Lieu de l'événement</p>}>
+                            <Tag icon={<PushpinOutlined />}>{props.location}</Tag>
+                        </Popover>
+                    </div>
+
+                    <Button variant={"filled"} color={"blue"} icon={<EyeOutlined/>} iconPosition={"end"}>Voir l'événement</Button>
                 </div>
             </div>
         </div>

@@ -1,0 +1,39 @@
+.mainContainer {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+.wrapper {
+    display: flex;
+    gap: 24px;
+}
+
+.filterPanelContainer {
+}
+
+.filterPanel {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
+
+.filterPanel > .panelTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: center;
+}
+
+.filterPanelModule {
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.filterPanelModule > .filterPanelModuleText {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
