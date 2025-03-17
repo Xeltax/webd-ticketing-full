@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Avatar, Button, Flex, Layout, Menu, Popover, theme} from 'antd';
-import {LogoutOutlined, UserOutlined} from '@ant-design/icons';
+import {DesktopOutlined, LogoutOutlined, UserOutlined} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import {useRouter} from "next/router";
 const { Header, Content, Footer } = Layout;
@@ -22,6 +22,7 @@ const MainLayout = (props : {children : any}) => {
         <>
             <Flex vertical gap="small" style={{ width: '100%' }}>
                 <Button block icon={<UserOutlined />}>Profile</Button>
+                <Button block icon={<DesktopOutlined />}>Administration</Button>
                 <Button block icon={<LogoutOutlined />}>Déconnexion</Button>
             </Flex>
         </>
