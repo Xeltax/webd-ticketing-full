@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Avatar, Button, Flex, Layout, Menu, Popover, theme} from 'antd';
 import {DesktopOutlined, LogoutOutlined, UserOutlined} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import {useRouter} from "next/router";
+import {getCookie} from "cookies-next";
 const { Header, Content, Footer } = Layout;
 
 
@@ -14,16 +15,33 @@ const items = [
 const MainLayout = (props : {children : any}) => {
     const router = useRouter();
     const [current, setCurrent] = useState(router.pathname);
+    const [isLogged, setIsLogged] = useState(false);
+
+    useEffect(() => {
+        const token = getCookie("JWT")
+
+        if (token) {
+            setIsLogged(true)
+        } else {
+            setIsLogged(false)
+        }
+    }, [])
+
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+
+    const handleLogout = () => {
+        document.cookie = "JWT=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        setIsLogged(false)
+    }
 
     const content = (
         <>
             <Flex vertical gap="small" style={{ width: '100%' }}>
                 <Button block icon={<UserOutlined />}>Profile</Button>
                 <Button block icon={<DesktopOutlined />}>Administration</Button>
-                <Button block icon={<LogoutOutlined />}>Déconnexion</Button>
+                <Button block icon={<LogoutOutlined />} onClick={handleLogout}>Déconnexion</Button>
             </Flex>
         </>
     )
@@ -54,9 +72,13 @@ const MainLayout = (props : {children : any}) => {
                     items={items}
                     style={{ flex: 1, minWidth: 0 }}
                 />
-                <Popover content={content} title="Paramètre">
-                    <Avatar size={48} icon={<UserOutlined />} style={{backgroundColor: "#1677ff"}} />
-                </Popover>
+                {isLogged ?
+                    <Popover content={content} title="Paramètre">
+                        <Avatar size={48} icon={<UserOutlined />} style={{backgroundColor: "#1677ff"}} />
+                    </Popover>
+                    :
+                    <Button type={"primary"} onClick={() => router.push("/login")}>Connexion</Button>
+                }
             </Header>
             <Content style={{ padding: '0 48px' }}>
                 {props.children}

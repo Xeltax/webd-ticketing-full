@@ -1,7 +1,7 @@
 export type UserDTO = {
-    firstName: string,
-    lastName: string,
+    firstName?: string | null,
+    lastName?: string | null,
     email: string,
-    phone : string | null,
+    phone? : string | null,
     password: string,
 }

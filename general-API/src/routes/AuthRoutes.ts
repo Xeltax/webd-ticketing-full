@@ -25,6 +25,9 @@ router.post("/login", async (req, res) => {
         );
 
         console.log(`📥 [${Date.now()}] Received ${user.length || 0} users from microservice`);
+        if (authUser.error) {
+            throw new Error(authUser.details);
+        }
         res.status(200).json(authUser);
     } catch (error :any) {
         console.error(`❌ [${Date.now()}] Error fetching users:`, error);

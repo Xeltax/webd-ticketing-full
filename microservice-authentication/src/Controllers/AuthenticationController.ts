@@ -2,6 +2,7 @@ import {AuthenticationService} from "../services/AuthenticationService";
 import {rabbitMQService} from "../../../microservice-user/src/services/rabbitmqService";
 import {AuthDTO} from "../Dtos/AuthDTO";
 import {User} from "../../../microservice-user/src/Models/User";
+import {UserDTO} from "../../../microservice-user/src/Dtos/UserDTO";
 
 const authService : AuthenticationService = new AuthenticationService();
 
@@ -48,7 +49,7 @@ export class AuthenticationController {
         });
     }
 
-    static async register(user : User) {
+    static async register(user : UserDTO) {
         return await authService.register(user);
     }
 
