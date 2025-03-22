@@ -7,11 +7,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ROLE_USER
+  ROLE_ADMIN
+}
+
 model Users {
-  firstName String?
-  lastName  String?
-  email     String   @unique
-  phone     String?
-  password  String
-  createdAt DateTime @default(now())
+  id            String   @id @default(uuid())
+  firstName     String?
+  lastName      String?
+  email         String   @unique
+  phone         String?
+  password      String
+  role          Role     @default(ROLE_USER)
+  createdAt     DateTime @default(now())
+  events        Events[] @relation("Participants")
+  createdEvents Events[] @relation("createdBy")
+}
+
+model Events {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  date        DateTime
+  location    String
+  createdAt   DateTime @default(now())
+
+  createdById String // Clé étrangère
+  createdBy   Users  @relation("createdBy", fields: [createdById], references: [email])
+
+  participants Users[] @relation("Participants")
+
+  categorie   Categories @relation(fields: [categorieId], references: [id])
+  categorieId String
+
+  tickets Tickets[]
+}
+
+model Categories {
+  id     String   @id @default(uuid())
+  name   String   @unique
+  color  String
+  events Events[]
+}
+
+model Tickets {
+  id      String @id @default(uuid())
+  name    String
+  price   Float
+  event   Events @relation(fields: [eventId], references: [id])
+  eventId String
 }

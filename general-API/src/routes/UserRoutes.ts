@@ -44,7 +44,7 @@ router.get("", async (req, res) => {
         res.status(500).json({ error: "Error fetching users", message: error.message });
     }
 });
-// router.put("", authenticateJWT, UserController.updateUser);
-// router.delete("", authenticateJWT, UserController.deleteUser);
+// router.put("", authenticateJWT, EventController.updateUser);
+// router.delete("", authenticateJWT, EventController.deleteUser);
 
 export default router;

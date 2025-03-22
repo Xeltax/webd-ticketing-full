@@ -1,33 +1,35 @@
-import {UserRepository} from "../repositories/UserRepository";
+import { User } from "../Models/User";
+import prisma from "../../../prisma";
 import {UserDTO} from "../Dtos/UserDTO";
-import {User} from "../Models/User";
 
-export class UserService {
-    private userRepository: UserRepository = new UserRepository();
-
-    async createUser(data: UserDTO): Promise<User> {
-        console.log("Creating user with data:", data.email);
-        const existingUser = await this.userRepository.getByEmail(data.email);
-        if (existingUser) {
-            throw new Error("User already exists");
-        }
-
-        return await this.userRepository.save(data);
-    }
-
-    async getAllUsers(): Promise<User[]> {
-        return await this.userRepository.getAll();
-    }
-
+export class UserRepository {
     async getByEmail(email: string): Promise<User | null> {
-        return await this.userRepository.getByEmail(email);
+        return prisma.users.findUnique({
+            where: {email},
+        });
     }
 
-    async updateUser(user: User, data: Partial<UserDTO>): Promise<User | null> {
-        return await this.userRepository.update(user, data);
+    async getAll(): Promise<User[]> {
+        return prisma.users.findMany();
     }
 
-    async deleteUser(email: string): Promise<void> {
-        await this.userRepository.delete(email);
+    async save(user: UserDTO): Promise<User> {
+        return prisma.users.create({
+            data: user,
+        });
+    }
+
+    async update(user: User, data: Partial<UserDTO>): Promise<User | null> {
+        const email = user.email;
+        return prisma.users.update({
+            where: {email},
+            data,
+        });
+    }
+
+    async delete(email: string): Promise<void> {
+        await prisma.users.delete({
+            where: { email },
+        });
     }
 }

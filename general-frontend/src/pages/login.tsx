@@ -22,7 +22,7 @@ const Login = () => {
             setCookie("JWT", response.data.token, {expires : new Date(Date.now() + ( 3600 * 1000 * 24))});
             router.push("/")
         }).catch((err) => {
-            if (err.response.data.message === "Invalid password") {
+            if (err.response?.data.message === "Invalid password") {
                 messageApi.open({
                     type: 'error',
                     content: 'Vos identifiants sont incorrects',

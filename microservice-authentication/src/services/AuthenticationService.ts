@@ -2,15 +2,15 @@ import {AuthDTO} from "../Dtos/AuthDTO";
 import {hash, compare} from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
-import {User} from "../../../microservice-user/src/Models/User";
-import {UserDTO} from "../../../microservice-user/src/Dtos/UserDTO";
+import {Category} from "../../../microservice-user/src/Models/Category";
+import {UserDTO} from "../../../microservice-user/src/Dtos/CategoryDTO";
 
 dotenv.config();
 
 export class AuthenticationService {
-    async login(credentials: AuthDTO, user : User): Promise<{ token: string; user: User }> {
+    async login(credentials: AuthDTO, user : Category): Promise<{ token: string; user: Category }> {
         if (!user) {
-            throw new Error("User does not exist");
+            throw new Error("Event does not exist");
         }
         
         const isPasswordValid = await compare(credentials.password, user.password);
