@@ -11,7 +11,7 @@ export class TicketController {
             try {
                 const tickets = await ticketService.getAllTickets();
                 await rabbitMQService.sendMessage(replyTo, tickets, { correlationId: properties.correlationId });
-            } catch (error) {
+            } catch (error : any) {
                 await rabbitMQService.sendMessage(replyTo, { error: error.message }, { correlationId: properties.correlationId });
             }
         });
@@ -23,7 +23,7 @@ export class TicketController {
             try {
                 const ticket = await ticketService.createTicket(msg);
                 await rabbitMQService.sendMessage(replyTo, ticket, { correlationId: properties.correlationId });
-            } catch (error) {
+            } catch (error : any) {
                 await rabbitMQService.sendMessage(replyTo, { error: error.message }, { correlationId: properties.correlationId });
             }
         });

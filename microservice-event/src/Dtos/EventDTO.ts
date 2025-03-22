@@ -6,4 +6,6 @@ export type EventDTO = {
     category: string,
     tickets : any,
     createdAt: Date,
+    createdById : string,
+    categorieId: string
 }

@@ -72,7 +72,7 @@ export class EventController {
                 });
 
                 console.log(`📨 [${Date.now()}] #${correlationId} Send result: ${sendResult ? "Success" : "Failed"}`);
-            } catch (error :any) {
+            } catch (error : any) {
                 console.error(`❌ [${Date.now()}] #${correlationId} Error:`, error);
 
                 // Envoyer une réponse d'erreur avec le même correlationId
@@ -113,7 +113,7 @@ export class EventController {
                 });
 
                 console.log(`📨 [${Date.now()}] #${correlationId} Send result: ${sendResult ? "Success" : "Failed"}`);
-            } catch (error :any) {
+            } catch (error : any) {
                 console.error(`❌ [${Date.now()}] #${correlationId} Error:`, error);
 
                 // Envoyer une réponse d'erreur avec le même correlationId

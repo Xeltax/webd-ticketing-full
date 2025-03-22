@@ -7,7 +7,6 @@ export class Event implements Events {
         public description: string,
         public date: Date,
         public location: string,
-        public category: string,
         public createdBy : any,
         public participants : any,
         public categorie : any,
