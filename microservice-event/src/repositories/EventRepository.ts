@@ -44,6 +44,8 @@ export class EventRepository {
                 name: event.name,
                 description: event.description,
                 date: event.date,
+                image : event.image,
+                bannerUrl : event.bannerUrl,
                 location: event.location,
                 createdAt: event.createdAt,
                 createdBy: { connect: { id: event.createdById } }, // Connexion avec l'utilisateur existant

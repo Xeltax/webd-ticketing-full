@@ -6,6 +6,8 @@ export class Event implements Events {
         public name: string,
         public description: string,
         public date: Date,
+        public image : string,
+        public bannerUrl : string[],
         public location: string,
         public createdBy : any,
         public participants : any,

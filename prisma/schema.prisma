@@ -9,6 +9,7 @@ datasource db {
 
 enum Role {
   ROLE_USER
+  ROLE_PLANNER
   ROLE_ADMIN
 }
 
@@ -30,6 +31,8 @@ model Events {
   name        String   @unique
   description String
   date        DateTime
+  image       String
+  bannerUrl   String[]
   location    String
   createdAt   DateTime @default(now())
 

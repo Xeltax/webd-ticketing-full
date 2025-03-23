@@ -16,9 +16,16 @@ const MainLayout = (props : {children : any}) => {
     const router = useRouter();
     const [current, setCurrent] = useState(router.pathname);
     const [isLogged, setIsLogged] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         const token = getCookie("JWT")
+        if (typeof token === "string") {
+            const decoded = token ? JSON.parse(atob(token.split('.')[1])) : null
+            if (decoded) {
+                setIsAdmin(decoded.role === "ROLE_ADMIN")
+            }
+        }
 
         if (token) {
             setIsLogged(true)
@@ -39,8 +46,8 @@ const MainLayout = (props : {children : any}) => {
     const content = (
         <>
             <Flex vertical gap="small" style={{ width: '100%' }}>
-                <Button block icon={<UserOutlined />}>Profile</Button>
-                <Button block icon={<DesktopOutlined />}>Administration</Button>
+                <Button block icon={<UserOutlined />} onClick={() => router.push("/settings/profile")}>Profile</Button>
+                {isAdmin && <Button block icon={<DesktopOutlined />} onClick={() => router.push("/admin")}>Administration</Button>}
                 <Button block icon={<LogoutOutlined />} onClick={handleLogout}>Déconnexion</Button>
             </Flex>
         </>

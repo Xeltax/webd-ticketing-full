@@ -1,14 +1,14 @@
 import {AuthenticationService} from "../services/AuthenticationService";
 import {rabbitMQService} from "../../../microservice-user/src/services/rabbitmqService";
 import {AuthDTO} from "../Dtos/AuthDTO";
-import {Category} from "../../../microservice-user/src/Models/Category";
-import {UserDTO} from "../../../microservice-user/src/Dtos/CategoryDTO";
+import {User} from "../../../microservice-user/src/Models/User"
+import { UserDTO} from "../../../microservice-user/src/Dtos/UserDTO";
 
 const authService : AuthenticationService = new AuthenticationService();
 
 export class AuthenticationController {
 
-    static async login(credentials : AuthDTO, user : Category) {
+    static async login(credentials : AuthDTO, user : User) {
         return await authService.login(credentials, user);
     }
 

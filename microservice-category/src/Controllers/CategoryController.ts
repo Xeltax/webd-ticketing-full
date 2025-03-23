@@ -20,7 +20,7 @@ export class CategoryController {
         await rabbitMQService.consumeMessages("create_category_queue", async (msg, properties) => {
             const replyTo = properties.replyTo || "create_category_response_queue";
             try {
-                const category = await categoryService.createCategory(msg);
+                const category = await categoryService.createCategory(msg.request);
                 await rabbitMQService.sendMessage(replyTo, category, { correlationId: properties.correlationId });
             } catch (error: any) {
                 await rabbitMQService.sendMessage(replyTo, { error: error.message }, { correlationId: properties.correlationId });

@@ -22,3 +22,27 @@ a {
 .slick-slider {
   margin: 0 -3rem !important;
 }
+
+.ant-layout {
+  min-height: 100vh;
+  height: auto;
+}
+
+.loadError {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadError > span {
+    font-size: 8.5rem;
+    color: #333;
+}
+
+.loadError > p {
+  font-size: 1.5rem;
+  color: #333;
+}
+

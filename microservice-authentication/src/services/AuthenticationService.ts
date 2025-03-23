@@ -2,13 +2,13 @@ import {AuthDTO} from "../Dtos/AuthDTO";
 import {hash, compare} from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
-import {Category} from "../../../microservice-user/src/Models/Category";
-import {UserDTO} from "../../../microservice-user/src/Dtos/CategoryDTO";
+import {User} from "../../../microservice-user/src/Models/User"
+import { UserDTO} from "../../../microservice-user/src/Dtos/UserDTO";
 
 dotenv.config();
 
 export class AuthenticationService {
-    async login(credentials: AuthDTO, user : Category): Promise<{ token: string; user: Category }> {
+    async login(credentials: AuthDTO, user : User): Promise<{ token: string; user: User }> {
         if (!user) {
             throw new Error("Event does not exist");
         }
@@ -19,7 +19,7 @@ export class AuthenticationService {
         }
 
         // @ts-ignore
-        const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, {
+        const token = jwt.sign({ email: user.email, id : user.id, role : user.role }, process.env.SECRET_KEY, {
             expiresIn: "1h", // Durée de validité du token
         });
 

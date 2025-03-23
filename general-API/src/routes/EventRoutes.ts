@@ -24,9 +24,9 @@ router.get("", async (req, res) => {
     try {
         console.log(`📤 [${Date.now()}] Sending request to get events`);
         const events = await rabbitMQService.requestResponse(
-            "get_events_queue",
+            "get_event_queue",
             { request: "getAllEvents" },
-            "get_events_response_queue",
+            "get_event_response_queue",
             1000
         );
         res.status(200).json(events);

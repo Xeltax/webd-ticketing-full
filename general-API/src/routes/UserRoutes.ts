@@ -44,7 +44,45 @@ router.get("", async (req, res) => {
         res.status(500).json({ error: "Error fetching users", message: error.message });
     }
 });
-// router.put("", authenticateJWT, EventController.updateUser);
-// router.delete("", authenticateJWT, EventController.deleteUser);
+
+router.get("/:id", async (req, res) => {
+    try {
+        console.log(`📤 [${Date.now()}] Sending request to get user by id`);
+
+        // Utiliser la nouvelle méthode requestResponse
+        const user = await rabbitMQService.requestResponse(
+            "get_user_by_id_queue",             // Queue de requête
+            { request: "getUserById", id: req.params.id },    // Message
+            "get_user_by_id_response_queue",    // Queue de réponse
+            1000                          // Timeout augmenté à 15 secondes
+        );
+
+        console.log(`📥 [${Date.now()}] Received user from microservice`);
+        res.status(200).json(user);
+    } catch (error :any) {
+        console.error(`❌ [${Date.now()}] Error fetching user:`, error);
+        res.status(500).json({ error: "Error fetching user", message: error.message });
+    }
+})
+
+router.put("", async (req, res) => {
+    try {
+        console.log(`📤 [${Date.now()}] Sending request to update user`);
+
+        // Utiliser la nouvelle méthode requestResponse
+        const user = await rabbitMQService.requestResponse(
+            "update_user_by_id_queue",             // Queue de requête
+            { request: "updateUser", data: req.body },    // Message
+            "update_user_by_id_response_queue",    // Queue de réponse
+            1000                          // Timeout augmenté à 15 secondes
+        );
+
+        console.log(`📥 [${Date.now()}] Received updated user from microservice`);
+        res.status(200).json(user);
+    } catch (error :any) {
+        console.error(`❌ [${Date.now()}] Error updating user:`, error);
+        res.status(500).json({ error: "Error updating user", message: error.message });
+    }
+})
 
 export default router;
