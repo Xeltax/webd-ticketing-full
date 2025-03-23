@@ -36,3 +36,12 @@
     flex-direction: column;
     gap: 1rem;
 }
+
+.noEventContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+}

@@ -23,11 +23,15 @@ export class EventService {
         return await this.eventRepository.getById(id);
     }
 
+    async getEventsByUserId(userId: string): Promise<Event[]> {
+        return await this.eventRepository.getByUserId(userId);
+    }
+
     async updateUser(event: Event, data: Partial<EventDTO>): Promise<Event | null> {
         return await this.eventRepository.update(event, data);
     }
 
-    async deleteUser(id: string): Promise<void> {
+    async deleteEventsById(id: string): Promise<void> {
         await this.eventRepository.delete(id);
     }
 }

@@ -14,7 +14,7 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
     { key: '/settings/profile', icon: <UserOutlined />, label: 'Profile' },
-    { key: '/settings/event', icon: <NotificationOutlined />, label: 'Evenement'},
+    { key: '/settings/event', icon: <NotificationOutlined />, label: 'Événement'},
 ];
 
 export default function Page({user}: InferGetServerSidePropsType<typeof getServerSideProps>) {

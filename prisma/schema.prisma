@@ -36,8 +36,8 @@ model Events {
   location    String
   createdAt   DateTime @default(now())
 
-  createdById String // Clé étrangère
   createdBy   Users  @relation("createdBy", fields: [createdById], references: [email])
+  createdById String
 
   participants Users[] @relation("Participants")
 

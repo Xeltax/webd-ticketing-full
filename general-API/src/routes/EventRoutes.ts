@@ -36,4 +36,36 @@ router.get("", async (req, res) => {
     }
 });
 
+router.get("/user/:id", async (req, res) => {
+    try {
+        console.log(`📤 [${Date.now()}] Sending request to get events by user id`);
+        const events = await rabbitMQService.requestResponse(
+            "get_event_by_user_id_queue",
+            { request: "getEventsByUserId", userId: req.params.id },
+            "get_event_by_user_id_response_queue",
+            1000
+        );
+        res.status(200).json(events);
+    } catch (error: any) {
+        console.error(`❌ Error fetching events by user id:`, error);
+        res.status(500).json({ error: "Error fetching events by user id", message: error.message });
+    }
+});
+
+router.delete("/:id", async (req, res) => {
+    try {
+        console.log(`📤 [${Date.now()}] Sending request to delete event`);
+        const event = await rabbitMQService.requestResponse(
+            "delete_event_queue",
+            { request: "deleteEvent", id: req.params.id },
+            "delete_event_response_queue",
+            1000
+        );
+        res.status(200).json(event);
+    } catch (error: any) {
+        console.error(`❌ Error deleting event:`, error);
+        res.status(500).json({ error: "Error deleting event", message: error.message });
+    }
+})
+
 export default router;

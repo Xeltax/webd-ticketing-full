@@ -15,6 +15,18 @@ export class EventRepository {
         });
     }
 
+    async getByUserId(userId: string): Promise<Event[]> {
+        return prisma.events.findMany({
+            where: { createdById: userId },
+            include: {
+                categorie: true, // Charge la catégorie associée
+                createdBy: true, // Charge l'utilisateur qui a créé l'événement
+                participants: true, // Charge les participants
+                tickets: true // Charge les tickets liés à l'événement
+            }
+        });
+    }
+
     async getByName(name: string): Promise<Event | null> {
         return prisma.events.findUnique({
             where: {name},
@@ -39,6 +51,7 @@ export class EventRepository {
     }
 
     async save(event: EventDTO): Promise<Event> {
+        console.log(event.createdById)
         return prisma.events.create({
             data: {
                 name: event.name,

@@ -7,7 +7,8 @@ async function start() {
         await EventController.handleGetEvents();
         await EventController.handleCreateEvent();
         await EventController.handleGetEventById();
-
+        await EventController.handleGetEventByUserId();
+        await EventController.handleDeleteEvent();
 
         process.on("SIGINT", async () => {
             console.log("\nGracefully shutting down...");
@@ -17,10 +18,18 @@ async function start() {
 
         await rabbitMQService.createQueue("get_event_queue");
         await rabbitMQService.createQueue("get_event_response_queue");
+
         await rabbitMQService.createQueue("get_event_by_id_queue");
         await rabbitMQService.createQueue("get_event_by_id_response_queue");
+
         await rabbitMQService.createQueue("create_event_queue");
         await rabbitMQService.createQueue("create_event_response_queue");
+
+        await rabbitMQService.createQueue("delete_event_queue");
+        await rabbitMQService.createQueue("delete_event_response_queue");
+
+        await rabbitMQService.createQueue("get_event_by_user_id_queue");
+        await rabbitMQService.createQueue("get_event_by_user_id_response_queue");
         console.log("🚀 Microservice Event started!");
     } catch (error) {
         console.error("❌ Error starting microservice:", error);

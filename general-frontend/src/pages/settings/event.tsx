@@ -1,6 +1,6 @@
 import styles from "@/styles/Settings.module.css";
 import MainLayout from "@/components/layout/MainLayout";
-import {Avatar, Button, Flex, Form, FormProps, Input, Menu, MenuProps, message, Switch} from "antd";
+import {Avatar, Button, Flex, Form, FormProps, Input, Menu, MenuProps, message, Modal, Switch} from "antd";
 import {MehOutlined, NotificationOutlined, UserOutlined} from "@ant-design/icons";
 import React, {useEffect, useState} from "react";
 import Client, {setBearerToken} from "@/utils/client";
@@ -8,7 +8,12 @@ import {parse} from "cookie";
 import {ROUTES} from "@/utils/routes";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {User} from "@/types/user";
+import {Event} from "@/types/event";
+import {Categories} from "@/types/categories";
 import {useRouter} from "next/router";
+import CreateEventModal from "@/components/createEventModal/createEventModal";
+import EventDisplay from "@/components/eventDisplay/eventDisplay";
+import EditEventModal from "@/components/editEventModal/editEventModal";
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -17,11 +22,16 @@ const items: MenuItem[] = [
     { key: '/settings/event', icon: <NotificationOutlined />, label: 'Événement'},
 ];
 
-export default function Page({user}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Page({user, event, categories}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [messageApi, contextHolder] = message.useMessage();
     const [userData, setUserData] = useState<User | null>(user)
-    const [editMode, setEditMode] = useState(true)
+    const [eventData, setEventData] = useState<Event[] | null>(event)
     const [current, setCurrent] = useState('/settings/event');
+    const [createEventModalVisible, setCreateEventModalVisible] = useState(false);
+    const [editEventModalVisible, setEditEventModalVisible] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+    const [open, setOpen] = useState(false);
+
     const router = useRouter();
 
     type FieldType = {
@@ -36,72 +46,28 @@ export default function Page({user}: InferGetServerSidePropsType<typeof getServe
         router.push(e.key)
     };
 
-    const handleSubmit: FormProps<FieldType>['onFinish'] = (values) => {
-        if (userData !== null && userData.id) {
-            const data = {
-                id : userData.id,
-                firstName: values.firstname,
-                lastName: values.lastname,
-                phone: values.phone
-            }
-            console.log(data)
-
-            Client.put(ROUTES.USER.CRUD, data).then((res) => {
-                console.log(res.data)
-                setUserData(res.data)
-                setEditMode(true)
-                messageApi.open({
-                    type: 'success',
-                    content: 'Vos informations ont bien été modifiées',
-                });
-            }).catch(() => {
-                messageApi.open({
-                    type: 'error',
-                    content: 'Une erreur est survenue',
-                });
-                setUserData(null)
-            })
-        }
+    const handleCreateEvent = (values : any) => {
+        console.log("create event")
+        values.createdById = userData?.id;
+        console.log(values)
+        Client.post(ROUTES.EVENT.CRUD , values).then((res) => {
+            console.log(res.data)
+            // @ts-ignore
+            setEventData([...eventData, res.data])
+            setCreateEventModalVisible(false)
+            messageApi.open({
+                type: 'success',
+                content: 'Votre événement a bien été créé',
+            });
+        }).catch(() => {
+            messageApi.open({
+                type: 'error',
+                content: 'Une erreur est survenue',
+            });
+        })
     }
 
-    const roleDisplay = () => {
-        if (userData) {
-            if (userData.role === "ROLE_ADMIN") {
-                return "Administrateur"
-            } else if (userData.role === "ROLE_USER") {
-                return "Utilisateur"
-            } else if (userData.role === "ROLE_PLANNER") {
-                return "Organisateur"
-            } else {
-                return "Inconnu"
-            }
-        }
-    }
-
-    const handleRoleChange = () => {
-        if (userData !== null && userData.id) {
-            const data = {
-                id : userData.id,
-                role: "ROLE_PLANNER"
-            }
-            console.log(data)
-
-            Client.put(ROUTES.USER.CRUD, data).then((res) => {
-                console.log(res.data)
-                setUserData(res.data)
-                messageApi.open({
-                    type: 'success',
-                    content: 'Vous êtes désormais organisateur',
-                });
-            }).catch(() => {
-                messageApi.open({
-                    type: 'error',
-                    content: 'Une erreur est survenue',
-                });
-                setUserData(null)
-            })
-        }
-    }
+    console.log(eventData)
 
     return (
         <div className={styles.mainContainer}>
@@ -126,9 +92,56 @@ export default function Page({user}: InferGetServerSidePropsType<typeof getServe
                     <div className={styles.profileContainer}>
                         {contextHolder}
                         <h2>Vos événements</h2>
+                        {eventData === null ?
+                            <div className={"loadError"}>
+                                <MehOutlined color={"gray"} size={96}/>
+                                <p>Erreur lors du chargement des informations réessayer plus tard</p>
+                            </div>
+                            : eventData?.length === 0 ?
+                            <div className={styles.noEventContainer}>
+                                <p>Vous n'avez pas encore d'événements</p>
+                                <Button type={"primary"} onClick={() => setCreateEventModalVisible(true)}>Créer un événement</Button>
+                            </div>
+                                :
+                                <>
+                                    <div style={{display : "flex", justifyContent: "flex-end", width: "100%"}}>
+                                        <Button type={"primary"} onClick={() => setCreateEventModalVisible(true)}>Créer un événement</Button>
+                                    </div>
+                                    {eventData.map((event) => {
+                                        return <EventDisplay
+                                            id={event.id}
+                                            title={event.name}
+                                            description={event.description}
+                                            category={event.categorie}
+                                            imgUrl={event.image}
+                                            date={event.date}
+                                            location={event.location}
+                                            editMode={true}
+                                            key={event.id}
+                                        />
+                                    })}
+                                </>
+                        }
                     </div>
                 </div>
             }
+
+
+            <CreateEventModal
+                open={createEventModalVisible}
+                onFinish={handleCreateEvent}
+                handleCancel={() => setCreateEventModalVisible(false)}
+                handleOk={() => setCreateEventModalVisible(false)}
+                categories={categories}
+            />
+
+            <EditEventModal
+                open={editEventModalVisible}
+                onFinish={handleCreateEvent}
+                handleCancel={() => setCreateEventModalVisible(false)}
+                handleOk={() => setCreateEventModalVisible(false)}
+                categories={categories}
+                />
         </div>
     );
 }
@@ -143,6 +156,8 @@ Page.getLayout = function getLayout(page : any) {
 
 export const getServerSideProps : GetServerSideProps <{
     user : User | null
+    event : Event[] | null
+    categories : Categories[] | null
 }> = async (context) => {
     const cookies = context.req.headers.cookie || "";
     const parsedCookies = parse(cookies);
@@ -155,5 +170,19 @@ export const getServerSideProps : GetServerSideProps <{
         return null
     })
 
-    return { props: { user } }
+    const event = await Client.get(ROUTES.EVENT.GET_BY_USER_ID(decoded.id)).then((res) => {
+        return res.data
+    }).catch(() => {
+        return null
+    })
+
+    const categories = await Client.get(ROUTES.CATEGORY.CRUD).then((res) => {
+        return res.data
+    }).catch(() => {
+        return null
+    })
+
+    console.log(categories)
+
+    return { props: { user , event, categories} }
 }
