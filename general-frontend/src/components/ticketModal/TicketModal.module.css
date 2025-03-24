@@ -1,0 +1,192 @@
+.ticketModal {
+    max-width: 700px;
+}
+
+.modalHeader {
+    padding-bottom: 15px;
+}
+
+.modalTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.modalSteps {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Étape de sélection des billets */
+.ticketSelectionStep {
+    padding: 20px 0;
+}
+
+.ticketCard {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+}
+
+.ticketHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.ticketIcon {
+    font-size: 32px;
+    color: #1890ff;
+    margin-right: 15px;
+}
+
+.ticketName {
+    font-size: 18px;
+}
+
+.ticketPrice {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1890ff;
+}
+
+.ticketDetails {
+    margin-bottom: 20px;
+}
+
+.ticketInfo {
+    margin-bottom: 10px;
+}
+
+.quantitySelector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.quantityInput {
+    width: 100px;
+}
+
+.ticketTotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px dashed #f0f0f0;
+}
+
+.totalPrice {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1890ff;
+}
+
+/* Étape d'informations personnelles */
+.personalInfoStep {
+    padding: 20px 0;
+}
+
+.stepTitle {
+    margin-bottom: 20px;
+}
+
+.additionalParticipant {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+}
+
+/* Étape de paiement */
+.paymentStep {
+    padding: 20px 0;
+}
+
+.paymentOptions {
+    display: flex;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.paymentOption {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    width: 100%;
+    height: 124px;
+}
+
+.paymentIcon {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #1890ff;
+}
+
+.paymentSubtext {
+    font-size: 12px;
+    color: #888;
+}
+
+.cardForm {
+    margin-bottom: 20px;
+}
+
+.orderSummary {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* Écran de confirmation */
+.confirmationDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.confirmationTicket {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px dashed #1890ff;
+    background-color: #f0f7ff;
+}
+
+.eventName {
+    font-size: 16px;
+}
+
+.ticketType {
+    color: #1890ff;
+    font-weight: bold;
+}
+
+/* Écran de connexion */
+.loginPrompt {
+    padding: 20px 0;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .paymentOptions {
+        flex-direction: column;
+    }
+
+    .paymentOption {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

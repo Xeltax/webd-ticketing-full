@@ -73,8 +73,7 @@ export class EventRepository {
         });
     }
 
-    async update(event: Event, data: Partial<EventDTO>): Promise<Event | null> {
-        const id = event.id;
+    async update(id : string, data: Partial<EventDTO>): Promise<Event> {
         return prisma.events.update({
             where: {id},
             include: {
@@ -83,7 +82,25 @@ export class EventRepository {
                 participants: true, // Charge les participants
                 tickets: true // Charge les tickets liés à l'événement
             },
-            data,
+            data: {
+                name: data.name,
+                description: data.description,
+                date: data.date,
+                image : data.image,
+                bannerUrl : data.bannerUrl,
+                location: data.location,
+                createdAt: data.createdAt,
+                createdBy: { connect: { id: data.createdById } }, // Connexion avec l'utilisateur existant
+                categorie: { connect: { id: data.categorieId } }, // Connexion avec la catégorie existante
+                tickets: {
+                    deleteMany: {}, // Supprime tous les tickets liés à cet event
+                    create: data.tickets?.map((ticket: any)  => ({
+                        id: ticket.id, // Optionnel si déjà existant
+                        name: ticket.name,
+                        price: ticket.price
+                    })) || []
+                }
+            },
         });
     }
 

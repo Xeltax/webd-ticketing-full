@@ -33,6 +33,16 @@ export const ROUTES = {
             }
         }
     },
+    TICKETS : {
+        CRUD: API_URL + '/ticket',
+        CRUD_BY_ID : (id : string) => {
+            if (id !== "") {
+                return API_URL + "/ticket/" + id;
+            } else {
+                return API_URL + "/ticket";
+            }
+        }
+    },
     CATEGORY: {
         CRUD: API_URL + '/categories',
         CRUD_BY_ID : (id : string) => {
@@ -40,6 +50,16 @@ export const ROUTES = {
                 return API_URL + "/categories/" + id;
             } else {
                 return API_URL + "/categories";
+            }
+        }
+    },
+    RESERVATION: {
+        CRUD: API_URL + '/reservation',
+        CRUD_BY_ID : (id : string) => {
+            if (id !== "") {
+                return API_URL + "/reservation/" + id;
+            } else {
+                return API_URL + "/reservation";
             }
         }
     }

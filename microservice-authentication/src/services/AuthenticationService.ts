@@ -18,6 +18,8 @@ export class AuthenticationService {
             throw new Error("Invalid password");
         }
 
+        console.log(process.env.SECRET_KEY)
+
         // @ts-ignore
         const token = jwt.sign({ email: user.email, id : user.id, role : user.role }, process.env.SECRET_KEY, {
             expiresIn: "1h", // Durée de validité du token

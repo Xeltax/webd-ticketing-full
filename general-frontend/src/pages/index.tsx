@@ -5,6 +5,14 @@ import MainLayout from "@/components/layout/MainLayout";
 import Title from "antd/es/typography/Title";
 import {CSSProperties} from "react";
 import EventDisplay from "@/components/eventDisplay/eventDisplay";
+import {GetServerSideProps, InferGetServerSidePropsType} from "next";
+import {User} from "@/types/user";
+import {Event} from "@/types/event";
+import {Categories} from "@/types/categories";
+import {parse} from "cookie";
+import Client, {setBearerToken} from "@/utils/client";
+import {ROUTES} from "@/utils/routes";
+import HandleError from "@/components/handleError/handleError";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,26 +35,7 @@ const contentStyle: CSSProperties = {
     background: '#364d79',
 };
 
-const data = [
-    {
-        title : "GP Explorer",
-        imgUrl : "https://i.ytimg.com/vi/PHMgMrQ4VxY/maxresdefault.jpg",
-        category : "Course",
-        description : "Le GP Explorer est une course de voiture qui se déroule sur un circuit de 5km",
-        date : "12/12/2022",
-        location : "Paris",
-    },
-    {
-        title : "Festival de Cannes",
-        imgUrl : "https://img.nrj.fr/qEPujaUoSqRS7kxgd9ycGD_diNw=/medias%2F2022%2F12%2Fxxbtkkdgt2jpvziw1mrlqpfzvy7-mrshfyvtha0k1hw_63ad6e2a1fd13.jpg?isVideoThumbnail=1",
-        category : "Festival",
-        description : "Le festival de Cannes est un festival de cinéma qui se déroule chaque année à Cannes",
-        date : "12/12/2022",
-        location : "Cannes",
-    },
-]
-
-export default function Page() {
+export default function Page({event}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
       <div className={styles.mainContainer}>
           <Flex justify={"center"} vertical={true} align={"center"} gap={0}>
@@ -67,12 +56,16 @@ export default function Page() {
                   <p>Course</p>
               </div>
           </Carousel>
-          <Flex justify={"center"} vertical={true} align={"center"} gap={12} style={{margin : "2rem 0"}}>
-              <Title style={{fontWeight : "700"}} level={2}>Les derniers événement</Title>
-              {data.map((item, index) => {
-                    return <EventDisplay key={index} imgUrl={item.imgUrl} title={item.title} description={item.description} category={item.category} date={item.date} location={item.location}/>
-              })}
-          </Flex>
+          {event === null ?
+              <HandleError/>
+          :
+              <Flex justify={"center"} vertical={true} align={"center"} gap={12} style={{margin : "2rem 0"}}>
+                  <Title style={{fontWeight : "700"}} level={2}>Les derniers événement</Title>
+                  {event.slice(0, 5).map((event, index) => {
+                        return <EventDisplay event={event} editMode={false}/>
+                  })}
+              </Flex>
+          }
       </div>
   );
 }
@@ -83,4 +76,21 @@ Page.getLayout = function getLayout(page : any) {
         {page}
       </MainLayout>
   );
+}
+
+export const getServerSideProps : GetServerSideProps <{
+    event : Event[] | null
+}> = async (context) => {
+    const cookies = context.req.headers.cookie || "";
+    const parsedCookies = parse(cookies);
+    setBearerToken(parsedCookies.JWT)
+    let decoded = parsedCookies.JWT ? JSON.parse(atob(parsedCookies.JWT.split('.')[1])) : null
+
+    const event = await Client.get(ROUTES.EVENT.CRUD).then((res) => {
+        return res.data
+    }).catch(() => {
+        return null
+    })
+
+    return { props: { event} }
 }

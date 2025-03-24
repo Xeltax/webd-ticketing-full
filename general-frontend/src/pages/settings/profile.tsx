@@ -9,6 +9,7 @@ import {ROUTES} from "@/utils/routes";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {User} from "@/types/user";
 import {useRouter} from "next/router";
+import HandleError from "@/components/handleError/handleError";
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -106,10 +107,7 @@ export default function Page({user}: InferGetServerSidePropsType<typeof getServe
     return (
         <div className={styles.mainContainer}>
             {userData === null ?
-                <div className={"loadError"}>
-                    <MehOutlined color={"gray"} size={96}/>
-                    <p>Erreur lors du chargement des informations réessayer plus tard</p>
-                </div>
+                <HandleError/>
                 :
                 <div className={styles.settingContainer}>
                     {userData.role === "ROLE_ADMIN" || userData.role === "ROLE_PLANNER" &&

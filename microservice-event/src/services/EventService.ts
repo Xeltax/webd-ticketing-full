@@ -27,8 +27,15 @@ export class EventService {
         return await this.eventRepository.getByUserId(userId);
     }
 
-    async updateUser(event: Event, data: Partial<EventDTO>): Promise<Event | null> {
-        return await this.eventRepository.update(event, data);
+    async updateEventById(id: string, data: EventDTO): Promise<Event> {
+        const existingEvent = await this.eventRepository.getById(id);
+        if (!existingEvent) {
+            throw new Error("Event not found");
+        }
+
+        console.log("Updating event with data:", data);
+
+        return await this.eventRepository.update(id, data);
     }
 
     async deleteEventsById(id: string): Promise<void> {

@@ -1,8 +1,9 @@
-import {Button, DatePicker, Form, Input, Modal, Select, Space} from "antd";
+import {Button, DatePicker, Divider, Form, Input, Modal, Select, Space} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import {Categories} from "@/types/categories";
 import {useRef, useState} from "react";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
+import TicketForm from "@/components/ticketForm/ticketForm";
 
 const CreateEventModal = (props : {
     open : boolean,
@@ -13,6 +14,7 @@ const CreateEventModal = (props : {
 }) => {
     const [bannerUrls, setBannerUrls] = useState([""]);
     const submitRef = useRef(null);
+    const [tickets, setTickets] = useState<{ name: string; price: number }[]>([]);
 
     const handleAdd = () => {
         if (bannerUrls.length < 5) {
@@ -41,13 +43,14 @@ const CreateEventModal = (props : {
             location: values.eventLocation,
             createdById : null,
             categorieId: values.eventCategory,
+            tickets: tickets
         }
+
         props.onFinish(data)
     }
 
     return (
         <Modal
-            title="Create Event"
             open={props.open}
             onOk={props.handleOk}
             onCancel={props.handleCancel}
@@ -62,6 +65,7 @@ const CreateEventModal = (props : {
                 </Button>,
             ]}
         >
+            <h2>Créer un événement</h2>
             <Form
                 name="basic"
                 initialValues={{ remember: true }}
@@ -89,7 +93,7 @@ const CreateEventModal = (props : {
                     name="eventDate"
                     rules={[{ required: true, message: 'Merci de saisir la date' }]}
                 >
-                    <DatePicker />
+                    <DatePicker placeholder={"Saisir la date"}/>
                 </Form.Item>
 
                 <Form.Item
@@ -147,6 +151,8 @@ const CreateEventModal = (props : {
 
                 <button type={"submit"} ref={submitRef} style={{display : "none"}}/>
             </Form>
+            <Divider/>
+            <TicketForm callback={(ticketsValue) => setTickets(ticketsValue)}/>
         </Modal>
     );
 }

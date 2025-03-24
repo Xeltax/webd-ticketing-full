@@ -11,8 +11,9 @@ export class TicketRepository {
         return prisma.tickets.findMany();
     }
 
-    async save(ticket: TicketDTO): Promise<Ticket> {
-        return prisma.tickets.create({ data: ticket });
+    async save(tickets: TicketDTO[]): Promise<{ count: number }> {
+        console.log("tickets are", tickets)
+        return prisma.tickets.createMany({ data: tickets });
     }
 
     async update(id: string, data: Partial<TicketDTO>): Promise<Ticket | null> {

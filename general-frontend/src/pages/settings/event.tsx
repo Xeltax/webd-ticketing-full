@@ -55,9 +55,51 @@ export default function Page({user, event, categories}: InferGetServerSidePropsT
             // @ts-ignore
             setEventData([...eventData, res.data])
             setCreateEventModalVisible(false)
+
+            const ticketData = values.tickets.map((ticket : {name : string, price : number}) => {
+                return {
+                    name : ticket.name,
+                    price : Number(ticket.price),
+                    eventId : res.data.id
+                }
+            })
+            Client.post(ROUTES.TICKETS.CRUD, ticketData).then((res) => {
+                console.log(res.data)
+                messageApi.open({
+                    type: 'success',
+                    content: 'Votre événement a bien été créé',
+                });
+            }).catch(() => {
+                messageApi.open({
+                    type: 'error',
+                    content: 'Une erreur est survenue',
+                });
+            })
+        }).catch(() => {
+            messageApi.open({
+                type: 'error',
+                content: 'Une erreur est survenue',
+            });
+        })
+    }
+
+    const handleEditEvent = (values : any) => {
+        console.log("edit event")
+        console.log(values)
+        Client.put(ROUTES.EVENT.CRUD + `/${values.id}`, values).then((res) => {
+            console.log(res.data)
+            const newEventData = eventData?.map((event) => {
+                if (event.id === res.data.id) {
+                    return res.data as Event
+                }
+                return event as Event
+            })
+            // @ts-ignore
+            setEventData(newEventData)
+            setEditEventModalVisible(false)
             messageApi.open({
                 type: 'success',
-                content: 'Votre événement a bien été créé',
+                content: 'Votre événement a bien été modifié',
             });
         }).catch(() => {
             messageApi.open({
@@ -109,14 +151,12 @@ export default function Page({user, event, categories}: InferGetServerSidePropsT
                                     </div>
                                     {eventData.map((event) => {
                                         return <EventDisplay
-                                            id={event.id}
-                                            title={event.name}
-                                            description={event.description}
-                                            category={event.categorie}
-                                            imgUrl={event.image}
-                                            date={event.date}
-                                            location={event.location}
+                                            event={event}
                                             editMode={true}
+                                            selectedEvent={(event) => {
+                                                setSelectedEvent(event)
+                                                setEditEventModalVisible(true)
+                                            }}
                                             key={event.id}
                                         />
                                     })}
@@ -137,10 +177,11 @@ export default function Page({user, event, categories}: InferGetServerSidePropsT
 
             <EditEventModal
                 open={editEventModalVisible}
-                onFinish={handleCreateEvent}
-                handleCancel={() => setCreateEventModalVisible(false)}
-                handleOk={() => setCreateEventModalVisible(false)}
+                onFinish={handleEditEvent}
+                handleCancel={() => setEditEventModalVisible(false)}
+                handleOk={() => setEditEventModalVisible(false)}
                 categories={categories}
+                eventData={selectedEvent}
                 />
         </div>
     );

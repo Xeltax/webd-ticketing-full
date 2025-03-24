@@ -1,4 +1,4 @@
-// Models/Category.ts
+// Models/Reservation.ts
 import { Categories } from "@prisma/client";
 
 export class Category implements Categories {

@@ -4,53 +4,16 @@ import {Flex, Splitter, Checkbox, Select, DatePicker, Input} from "antd";
 import Title from "antd/es/typography/Title";
 import {SearchOutlined} from "@ant-design/icons";
 import EventDisplay from "@/components/eventDisplay/eventDisplay";
+import HandleError from "@/components/handleError/handleError";
+import {GetServerSideProps, InferGetServerSidePropsType} from "next";
+import {Event} from "@/types/event";
+import {parse} from "cookie";
+import Client, {setBearerToken} from "@/utils/client";
+import {ROUTES} from "@/utils/routes";
+import {useState} from "react";
 
-
-const data = [
-    {
-        title : "GP Explorer",
-        imgUrl : "https://i.ytimg.com/vi/PHMgMrQ4VxY/maxresdefault.jpg",
-        category : "Course",
-        description : "Le GP Explorer est une course de voiture qui se déroule sur un circuit de 5km",
-        date : "12/12/2022",
-        location : "Paris",
-    },
-    {
-        title : "Festival de Cannes",
-        imgUrl : "https://img.nrj.fr/qEPujaUoSqRS7kxgd9ycGD_diNw=/medias%2F2022%2F12%2Fxxbtkkdgt2jpvziw1mrlqpfzvy7-mrshfyvtha0k1hw_63ad6e2a1fd13.jpg?isVideoThumbnail=1",
-        category : "Festival",
-        description : "Le festival de Cannes est un festival de cinéma qui se déroule chaque année à Cannes",
-        date : "12/12/2022",
-        location : "Cannes",
-    },
-    {
-        title: "Grand Prix de Monaco",
-        imgUrl: "https://cdn-imgix.headout.com/media/images/7d0797d8d3e5a6961697266f94016da9-Monaco%201.jpg",
-        category: "Course",
-        description: "Le Grand Prix de Monaco est une course de voiture qui se déroule sur un circuit de 5km",
-        date: "12/12/2022",
-        location: "Monaco",
-    },
-    {
-        title : "Exposition de Paris",
-        imgUrl : "https://www.connaissancedesarts.com/wp-content/thumbnails/uploads/2024/06/cda24_cr_petit_palais_street_art_we_are_here_mainok-1-tt-width-1200-height-900-fill-0-crop-1-bgcolor-ffffff.jpg",
-        category : "Exposition",
-        description : "L'exposition de Paris est une exposition d'art qui se déroule chaque année à Paris",
-        date : "12/12/2022",
-        location : "Paris",
-    },
-    {
-        title : "Festival de Lille",
-        imgUrl : "https://www.weo.fr/1672043218/v2awg0w5ucvj0ae8bhhcrpakh58g/VMF22_lille.jpg",
-        category : "Festival",
-        description : "Le festival de Lille est un festival de musique qui se déroule chaque année à Lille",
-        date : "12/12/2022",
-        location : "Lille",
-    }
-]
-
-
-export default function Page() {
+export default function Page({event}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    const [eventData, setEventData] = useState<Event[] | null>(event)
     const plainOptions = ['Apple', 'Pear', 'Orange'];
 
     const onChange = (checkedValues : any) => {
@@ -115,11 +78,15 @@ export default function Page() {
                     </div>
                 </div>
                 <div className={styles.catalogueContainer}>
-                    <Flex justify={"center"} vertical={true} align={"center"} gap={12}>
-                        {data.map((item, index) => {
-                            return <EventDisplay key={index} imgUrl={item.imgUrl} title={item.title} description={item.description} category={item.category} date={item.date} location={item.location}/>
-                        })}
-                    </Flex>
+                    {eventData === null ?
+                        <HandleError/>
+                        :
+                        <Flex justify={"center"} vertical={true} align={"center"} gap={12}>
+                            {eventData.map((event, index) => {
+                                return <EventDisplay event={event} editMode={false}/>
+                            })}
+                        </Flex>
+                    }
                 </div>
             </div>
         </div>
@@ -132,4 +99,21 @@ Page.getLayout = function getLayout(page : any) {
             {page}
         </MainLayout>
     );
+}
+
+export const getServerSideProps : GetServerSideProps <{
+    event : Event[] | null
+}> = async (context) => {
+    const cookies = context.req.headers.cookie || "";
+    const parsedCookies = parse(cookies);
+    setBearerToken(parsedCookies.JWT)
+    let decoded = parsedCookies.JWT ? JSON.parse(atob(parsedCookies.JWT.split('.')[1])) : null
+
+    const event = await Client.get(ROUTES.EVENT.CRUD).then((res) => {
+        return res.data
+    }).catch(() => {
+        return null
+    })
+
+    return { props: { event} }
 }

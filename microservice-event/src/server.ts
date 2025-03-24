@@ -9,6 +9,7 @@ async function start() {
         await EventController.handleGetEventById();
         await EventController.handleGetEventByUserId();
         await EventController.handleDeleteEvent();
+        await EventController.handleUpdateEventById();
 
         process.on("SIGINT", async () => {
             console.log("\nGracefully shutting down...");
@@ -27,6 +28,9 @@ async function start() {
 
         await rabbitMQService.createQueue("delete_event_queue");
         await rabbitMQService.createQueue("delete_event_response_queue");
+
+        await rabbitMQService.createQueue("update_event_queue");
+        await rabbitMQService.createQueue("update_event_response_queue");
 
         await rabbitMQService.createQueue("get_event_by_user_id_queue");
         await rabbitMQService.createQueue("get_event_by_user_id_response_queue");

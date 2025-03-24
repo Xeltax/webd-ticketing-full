@@ -13,7 +13,7 @@ export class TicketService {
         return this.ticketRepository.getById(id);
     }
 
-    async createTicket(data: TicketDTO) {
+    async createTicket(data: TicketDTO[]) {
         return this.ticketRepository.save(data);
     }
 

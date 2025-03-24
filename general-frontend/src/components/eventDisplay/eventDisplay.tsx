@@ -11,10 +11,15 @@ import {Button, message, Modal, Popover, Tag} from "antd";
 import EyeIcon from "next/dist/client/components/react-dev-overlay/ui/icons/eye-icon";
 import {Categories} from "@/types/categories";
 import Client from "@/utils/client";
+import {Event} from "@/types/event";
 import {ROUTES} from "@/utils/routes";
 import {useRouter} from "next/router";
 
-const EventDisplay = (props : {id : string | undefined, title: string, description : string, imgUrl : string, category : Categories | undefined, date : Date, location : string, editMode : boolean}) => {
+const EventDisplay = (props : {
+    event : Event,
+    editMode : boolean,
+    selectedEvent? : (event : any) => void
+}) => {
     const [modal, contextHolder] = Modal.useModal();
     const [messageApi, contextHolder2] = message.useMessage();
     const router = useRouter();
@@ -24,32 +29,35 @@ const EventDisplay = (props : {id : string | undefined, title: string, descripti
             {contextHolder}
             {contextHolder2}
             <div className={styles.imgWrapper}>
-                <img src={props.imgUrl} alt="" />
+                <img src={props.event.image} alt="" />
             </div>
             <div className={styles.content}>
-                <p className={styles.eventTitle}>{props.title}</p>
+                <p className={styles.eventTitle}>{props.event.name}</p>
                 <Popover content={<p>Categorie</p>}>
-                    {props.category &&
-                        <Tag icon={<HeartOutlined />} color={props.category.color}>{props.category.name}</Tag>
+                    {props.event.categorie &&
+                        <Tag icon={<HeartOutlined />} color={props.event.categorie.color}>{props.event.categorie.name}</Tag>
                     }
                 </Popover>
 
-                <p>{props.description}</p>
+                <p>{props.event.description}</p>
 
                 <div className={styles.footer}>
                     <div>
                         <Popover content={<p>Date de l'événement</p>}>
-                            <Tag icon={<CalendarOutlined />}>{new Date(props.date).toLocaleDateString()}</Tag>
+                            <Tag icon={<CalendarOutlined />}>{new Date(props.event.date).toLocaleDateString()}</Tag>
                         </Popover>
                         <Popover content={<p>Lieu de l'événement</p>}>
-                            <Tag icon={<PushpinOutlined />}>{props.location}</Tag>
+                            <Tag icon={<PushpinOutlined />}>{props.event.location}</Tag>
                         </Popover>
                     </div>
 
                     {props.editMode ?
                         <div style={{display : "flex", gap : "8px"}}>
-                            <Button variant={"filled"} color={"blue"} icon={<EyeOutlined/>} iconPosition={"end"}>Voir l'événement</Button>
-                            <Button variant={"filled"} color={"green"} icon={<EditOutlined/>} iconPosition={"end"}>Modifier l'événement</Button>
+                            <Button variant={"filled"} color={"blue"} icon={<EyeOutlined/>} iconPosition={"end"} onClick={() => router.push(`/eventDetail/${props.event.id}`)}>Voir l'événement</Button>
+                            <Button variant={"filled"} color={"green"} icon={<EditOutlined/>} iconPosition={"end"} onClick={ () =>
+                                // @ts-ignore
+                                props.selectedEvent(props.event)
+                            }>Modifier l'événement</Button>
                             <Button variant={"filled"} color={"red"} icon={<CloseCircleOutlined/>} iconPosition={"end"} onClick={() => {
                                 modal.confirm({
                                     title: 'Êtes vous sûr de vouloir supprimer cet événement ?',
@@ -63,7 +71,7 @@ const EventDisplay = (props : {id : string | undefined, title: string, descripti
                                         </>
                                     ),
                                     onOk : () => {
-                                        Client.delete(ROUTES.EVENT.CRUD + `/${props.id}`).then(() => {
+                                        Client.delete(ROUTES.EVENT.CRUD + `/${props.event.id}`).then(() => {
                                             messageApi.success({
                                                 type: "success",
                                                 content: 'L\'événement a bien été supprimé'
@@ -81,7 +89,7 @@ const EventDisplay = (props : {id : string | undefined, title: string, descripti
                             }}>Supprimer l'événement</Button>
                         </div>
                     :
-                        <Button variant={"filled"} color={"blue"} icon={<EyeOutlined/>} iconPosition={"end"}>Voir l'événement</Button>
+                        <Button variant={"filled"} color={"blue"} icon={<EyeOutlined/>} iconPosition={"end"} onClick={() => router.push(`/eventDetail/${props.event.id}`)}>Voir l'événement</Button>
                     }
                 </div>
             </div>
