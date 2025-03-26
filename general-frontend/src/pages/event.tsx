@@ -15,7 +15,6 @@ import FilterPanel from "@/components/filterPanel/filterPanel";
 
 export default function Page({event}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [eventData, setEventData] = useState<Event[] | null>(event)
-    const plainOptions = ['Apple', 'Pear', 'Orange'];
 
     return (
         <div className={styles.mainContainer}>
@@ -26,11 +25,11 @@ export default function Page({event}: InferGetServerSidePropsType<typeof getServ
             <div className={styles.wrapper}>
                 <FilterPanel events={event} setFilteredEvents={(events) => setEventData(events)}/>
                 <div className={styles.catalogueContainer}>
-                    {eventData === null ?
+                    {event === null ?
                         <HandleError/>
                         :
                         <Flex justify={"center"} vertical={true} align={"center"} gap={12}>
-                            {eventData.length > 0 ?
+                            {eventData && eventData.length > 0 ?
                             eventData.map((event, index) => {
                                 return <EventDisplay event={event} editMode={false}/>
                             })
@@ -66,6 +65,8 @@ export const getServerSideProps : GetServerSideProps <{
     }).catch(() => {
         return null
     })
+
+    console.log(event)
 
     return { props: { event} }
 }

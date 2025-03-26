@@ -1,5 +1,5 @@
 import { Reservation } from "../Models/Reservation";
-import prisma from "../../../prisma";
+import prisma from "../../prisma";
 import {ReservationDTO} from "../Dtos/ReservationDTO";
 
 export class ReservationRepository {

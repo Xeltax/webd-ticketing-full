@@ -5,13 +5,13 @@ FROM node:18
 WORKDIR /app
 
 # Copier les fichiers package.json et package-lock.json
-COPY microservice-category/package*.json ./
+COPY microservice-event/package*.json ./
 
 # Installer les dépendances
 RUN npm install
 
 # Copier les fichiers du projet
-COPY microservice-category/ ./
+COPY microservice-event/ ./
 
 # Copier Prisma depuis le dossier racine
 COPY ../prisma ./prisma

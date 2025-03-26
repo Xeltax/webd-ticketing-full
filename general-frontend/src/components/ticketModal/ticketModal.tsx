@@ -79,9 +79,11 @@ const TicketBookingModal = (props : {
 
         Client.post(ROUTES.RESERVATION.CRUD, data).then((response) => {
             console.log(response);
+            messageApi.success('Votre réservation a été prise en compte !');
+        }).catch(() => {
+            messageApi.error('Erreur lors de la réservation');
         })
 
-        messageApi.success('Votre réservation a été prise en compte !');
         setCurrentStep(3); // Passer à l'écran de confirmation
     };
 

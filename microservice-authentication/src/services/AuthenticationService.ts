@@ -16,10 +16,12 @@ export class AuthenticationService {
             throw new Error("Invalid password");
         }
 
-        console.log(process.env.SECRET_KEY)
+        const SECRET_KEY = process.env.SECRET_KEY || "fallback_secret";
+
+        console.log(SECRET_KEY)
 
         // @ts-ignore
-        const token = jwt.sign({ email: user.email, id : user.id, role : user.role }, process.env.SECRET_KEY, {
+        const token = jwt.sign({ email: user.email, id : user.id, role : user.role }, SECRET_KEY, {
             expiresIn: "1h", // Durée de validité du token
         });
 

@@ -3,7 +3,6 @@ import styles from "@/styles/Login.module.css";
 import Title from "antd/es/typography/Title";
 import {useRouter} from "next/router";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
-import {useState} from "react";
 import Client from "@/utils/client";
 import {ROUTES} from "@/utils/routes";
 import {setCookie} from "cookies-next";

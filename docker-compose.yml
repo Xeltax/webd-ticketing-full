@@ -42,6 +42,16 @@ services:
       - ./prisma:/app/prisma
     networks:
       - app-network
+  general-frontend:
+    build: ./general-frontend
+    container_name: general-frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://general-api:5000
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
 
   microservice-authentication:
     build:
@@ -91,6 +101,60 @@ services:
       - rabbitmq
     ports:
       - "4003:4003"
+    environment:
+      DATABASE_URL: postgres://admin:password@postgres-db:5432/mydatabase
+      RABBITMQ_URL: amqp://rabbitmq
+    volumes:
+      - ./prisma:/app/prisma
+    networks:
+      - app-network
+  microservice-event:
+    build:
+      context: .
+      dockerfile: ./microservice-event/Dockerfile
+    container_name: microservice-event
+    restart: always
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "4004:4004"
+    environment:
+      DATABASE_URL: postgres://admin:password@postgres-db:5432/mydatabase
+      RABBITMQ_URL: amqp://rabbitmq
+    volumes:
+      - ./prisma:/app/prisma
+    networks:
+      - app-network
+  microservice-reservation:
+    build:
+      context: .
+      dockerfile: ./microservice-reservation/Dockerfile
+    container_name: microservice-reservation
+    restart: always
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "4005:4005"
+    environment:
+      DATABASE_URL: postgres://admin:password@postgres-db:5432/mydatabase
+      RABBITMQ_URL: amqp://rabbitmq
+    volumes:
+      - ./prisma:/app/prisma
+    networks:
+      - app-network
+  microservice-tickets:
+    build:
+      context: .
+      dockerfile: ./microservice-tickets/Dockerfile
+    container_name: microservice-tickets
+    restart: always
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "4006:4006"
     environment:
       DATABASE_URL: postgres://admin:password@postgres-db:5432/mydatabase
       RABBITMQ_URL: amqp://rabbitmq

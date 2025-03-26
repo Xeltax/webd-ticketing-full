@@ -1,6 +1,5 @@
 import * as amqp from "amqplib";
 import {ChannelModel} from "amqplib";
-import {Channel} from "node:diagnostics_channel";
 
 class RabbitMQService {
     private connection: ChannelModel | null = null;
@@ -10,7 +9,7 @@ class RabbitMQService {
     private readonly url: string;
     private consumers: Map<string, string> = new Map(); // Stocke les consumerTags par queueName
 
-    constructor(url: string = 'amqp://localhost') {
+    constructor(url: string = 'amqp://rabbitmq') {
         this.url = url;
     }
 

@@ -1,5 +1,5 @@
 import { Ticket } from "../Models/Ticket";
-import prisma from "../../../prisma";
+import prisma from "../../prisma";
 import {TicketDTO} from "../Dtos/TicketDTO";
 
 export class TicketRepository {
