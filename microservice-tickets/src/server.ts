@@ -1,5 +1,5 @@
 import { TicketController } from "./Controllers/TicketController";
-import { rabbitMQService } from "./Services/rabbitmqService";
+import { rabbitMQService } from "./services/rabbitmqService";
 
 async function start() {
     try {

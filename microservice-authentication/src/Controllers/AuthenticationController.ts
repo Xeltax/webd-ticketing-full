@@ -1,14 +1,12 @@
 import {AuthenticationService} from "../services/AuthenticationService";
-import {rabbitMQService} from "../../../microservice-user/src/services/rabbitmqService";
+import {rabbitMQService} from "../services/rabbitmqService";
 import {AuthDTO} from "../Dtos/AuthDTO";
-import {User} from "../../../microservice-user/src/Models/User"
-import { UserDTO} from "../../../microservice-user/src/Dtos/UserDTO";
 
 const authService : AuthenticationService = new AuthenticationService();
 
 export class AuthenticationController {
 
-    static async login(credentials : AuthDTO, user : User) {
+    static async login(credentials : AuthDTO, user : any) {
         return await authService.login(credentials, user);
     }
 
@@ -49,7 +47,7 @@ export class AuthenticationController {
         });
     }
 
-    static async register(user : UserDTO) {
+    static async register(user : any) {
         return await authService.register(user);
     }
 

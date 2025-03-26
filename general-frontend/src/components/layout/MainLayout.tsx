@@ -6,17 +6,15 @@ import {useRouter} from "next/router";
 import {getCookie} from "cookies-next";
 const { Header, Content, Footer } = Layout;
 
-
-const items = [
-    {key : "/", label : "Accueil"},
-    {key : "/event", label : "Les events"},
-]
-
 const MainLayout = (props : {children : any}) => {
     const router = useRouter();
     const [current, setCurrent] = useState(router.pathname);
     const [isLogged, setIsLogged] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [menuItems, setMenuItems] = useState<any>([
+        { key: '/', label: 'Accueil' },
+        { key: '/event', label: 'Les events' },
+    ]);
 
     useEffect(() => {
         const token = getCookie("JWT")
@@ -29,6 +27,7 @@ const MainLayout = (props : {children : any}) => {
 
         if (token) {
             setIsLogged(true)
+            setMenuItems([...menuItems, { key: '/reservation', label: 'Mes réservations' }])
         } else {
             setIsLogged(false)
         }
@@ -76,7 +75,7 @@ const MainLayout = (props : {children : any}) => {
                         setCurrent(() => e.key)
                         router.push(e.key)
                     }}
-                    items={items}
+                    items={menuItems}
                     style={{ flex: 1, minWidth: 0 }}
                 />
                 {isLogged ?

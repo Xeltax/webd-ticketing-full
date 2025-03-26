@@ -1,4 +1,4 @@
-import { TicketRepository } from "../Repositories/TicketRepository";
+import { TicketRepository } from "../repositories/TicketRepository";
 import {TicketDTO} from "../Dtos/TicketDTO";
 
 

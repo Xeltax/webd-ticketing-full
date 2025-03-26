@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { rabbitMQService } from "../service/rabbitmqService";
+import {authenticateJWT} from "../Middleware/AuthMiddleware";
 
 const router = Router();
 
@@ -20,7 +21,7 @@ router.post("", async (req, res) => {
     }
 });
 
-router.get("", async (req, res) => {
+router.get("", authenticateJWT, async (req, res) => {
     try {
         console.log(`📤 [${Date.now()}] Sending request to get events`);
         const events = await rabbitMQService.requestResponse(

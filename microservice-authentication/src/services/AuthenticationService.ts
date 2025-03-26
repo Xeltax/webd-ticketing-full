@@ -1,14 +1,12 @@
 import {AuthDTO} from "../Dtos/AuthDTO";
-import {hash, compare} from "bcrypt";
+import {hash, compare} from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
-import {User} from "../../../microservice-user/src/Models/User"
-import { UserDTO} from "../../../microservice-user/src/Dtos/UserDTO";
 
 dotenv.config();
 
 export class AuthenticationService {
-    async login(credentials: AuthDTO, user : User): Promise<{ token: string; user: User }> {
+    async login(credentials: AuthDTO, user : any): Promise<{ token: string; user: any }> {
         if (!user) {
             throw new Error("Event does not exist");
         }
@@ -28,7 +26,7 @@ export class AuthenticationService {
         return { token, user };
     }
 
-    async register(data: UserDTO): Promise<UserDTO> {
+    async register(data: any): Promise<any> {
         data.password = await this.hashPassword(data.password);
 
         return data;

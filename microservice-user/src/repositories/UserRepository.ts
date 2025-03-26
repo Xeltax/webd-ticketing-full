@@ -1,5 +1,5 @@
 import { User } from "../Models/User";
-import prisma from "../../../prisma";
+import prisma from "../../prisma";
 import {UserDTO} from "../Dtos/UserDTO";
 
 export class UserRepository {
@@ -33,9 +33,9 @@ export class UserRepository {
         });
     }
 
-    async delete(email: string): Promise<void> {
+    async delete(id: string): Promise<void> {
         await prisma.users.delete({
-            where: { email },
+            where: { id },
         });
     }
 }

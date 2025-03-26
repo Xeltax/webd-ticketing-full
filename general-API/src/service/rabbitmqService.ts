@@ -10,7 +10,7 @@ class RabbitMQService {
     private readonly url: string;
     private consumers: Map<string, string> = new Map(); // Stocke les consumerTags par queueName
 
-    constructor(url: string = 'amqp://localhost') {
+    constructor(url: string = 'amqp://rabbitmq') {
         this.url = url;
     }
 

@@ -1,6 +1,6 @@
 // Controllers/TicketController.ts
-import { TicketService } from "../Services/TicketService";
-import { rabbitMQService } from "../Services/rabbitmqService";
+import { TicketService } from "../services/TicketService";
+import { rabbitMQService } from "../services/rabbitmqService";
 
 const ticketService = new TicketService();
 

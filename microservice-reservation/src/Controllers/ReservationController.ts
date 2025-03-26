@@ -69,4 +69,28 @@ export class ReservationController {
             }
         });
     }
+
+    static async deleteReservationById(id: string) {
+        return await reservationService.deleteReservation(id);
+    }
+
+    static async handleDeleteReservation() {
+        await rabbitMQService.consumeMessages("delete_reservation_queue", async (msg, properties) => {
+            const correlationId = properties.correlationId || "unknown";
+            const replyTo = properties.replyTo || "delete_reservation_response_queue";
+
+            try {
+                console.log(`🔍 [${Date.now()}] #${correlationId} Deleting reservation with id: ${msg.id}`);
+                const reservation = await ReservationController.deleteReservationById(msg.id);
+
+                await rabbitMQService.createQueue(replyTo);
+                await rabbitMQService.sendMessage(replyTo, reservation, {correlationId});
+            } catch (error: any) {
+                await rabbitMQService.sendMessage(replyTo, {
+                    error: "Failed to delete reservation",
+                    details: error.message
+                }, {correlationId});
+            }
+        });
+    }
 }

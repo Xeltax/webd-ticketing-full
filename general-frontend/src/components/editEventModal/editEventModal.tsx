@@ -62,6 +62,7 @@ const EditEventModal = (props: {
             open={props.open}
             onOk={props.handleOk}
             onCancel={props.handleCancel}
+            destroyOnClose
             centered
             footer={[
                 <Button key="back" onClick={props.handleCancel}>

@@ -10,12 +10,36 @@ export class ReservationRepository {
     }
 
     async getAll(): Promise<Reservation[]> {
-        return prisma.reservations.findMany();
+        return prisma.reservations.findMany({
+            include: {
+                user : true,
+                event: {
+                    include: {
+                        categorie: true, // Inclure la catégorie de l'événement
+                        createdBy: true, // Inclure l'utilisateur qui a créé l'événement
+                        participants: true, // Inclure les participants
+                        tickets: true // Inclure tous les tickets associés
+                    }
+                },
+                ticket: true // Inclure les détails du ticket associé
+            }
+        });
     }
 
     async getByUser(userId: string): Promise<Reservation[]> {
         return prisma.reservations.findMany({
             where: { userId },
+            include: {
+                event: {
+                    include: {
+                        categorie: true, // Inclure la catégorie de l'événement
+                        createdBy: true, // Inclure l'utilisateur qui a créé l'événement
+                        participants: true, // Inclure les participants
+                        tickets: true // Inclure tous les tickets associés
+                    }
+                },
+                ticket: true // Inclure les détails du ticket associé
+            }
         });
     }
 

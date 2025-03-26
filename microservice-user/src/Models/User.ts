@@ -1,5 +1,6 @@
 import {Role, Users} from "@prisma/client";
 
+// @ts-ignore
 export class User implements Users {
     constructor(
         public id: string,

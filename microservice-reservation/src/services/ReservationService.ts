@@ -1,4 +1,4 @@
-import { ReservationRepository } from "../Repositories/ReservationRepository";
+import { ReservationRepository } from "../repositories/ReservationRepository";
 import { ReservationDTO } from "../Dtos/ReservationDTO";
 
 export class ReservationService {

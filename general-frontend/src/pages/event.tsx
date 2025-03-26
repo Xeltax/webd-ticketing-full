@@ -11,18 +11,11 @@ import {parse} from "cookie";
 import Client, {setBearerToken} from "@/utils/client";
 import {ROUTES} from "@/utils/routes";
 import {useState} from "react";
+import FilterPanel from "@/components/filterPanel/filterPanel";
 
 export default function Page({event}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [eventData, setEventData] = useState<Event[] | null>(event)
     const plainOptions = ['Apple', 'Pear', 'Orange'];
-
-    const onChange = (checkedValues : any) => {
-        console.log('checked = ', checkedValues);
-    }
-
-    const onSearch = (values: any) => {
-        console.log("values", values)
-    }
 
     return (
         <div className={styles.mainContainer}>
@@ -31,60 +24,19 @@ export default function Page({event}: InferGetServerSidePropsType<typeof getServ
             </Flex>
 
             <div className={styles.wrapper}>
-                <div className={styles.filterPanelContainer}>
-                    <div className={styles.filterPanel}>
-                        <p className={styles.panelTitle}>Filtre</p>
-                        <div className={styles.filterPanelModule}>
-                            <p className={styles.filterPanelModuleText}>Recherche</p>
-                            <Input addonBefore={<SearchOutlined />} placeholder="Chercher un événement" />
-                        </div>
-                        <div className={styles.filterPanelModule}>
-                            <p className={styles.filterPanelModuleText}>Catégorie</p>
-                            <Checkbox.Group options={plainOptions} defaultValue={['Apple']} onChange={onChange} style={{display : "flex", flexDirection : "column"}} />
-                        </div>
-
-                        <div className={styles.filterPanelModule}>
-                            <p className={styles.filterPanelModuleText}>Date</p>
-                            <DatePicker placeholder={"Choisissez une date"} onChange={onChange} style={{ width: '100%' }}/>
-                        </div>
-
-
-                        <div className={styles.filterPanelModule}>
-                            <p className={styles.filterPanelModuleText}>Lieu</p>
-                            <Select
-                                showSearch
-                                placeholder="Choisir une ville"
-                                optionFilterProp="label"
-                                style={{ width: "100%" }}
-                                onChange={onChange}
-                                onSearch={onSearch}
-                                options={[
-                                    {
-                                        value: 'paris',
-                                        label: 'Paris',
-                                    },
-                                    {
-                                        value: 'canne',
-                                        label: 'Cannes',
-                                    },
-                                    {
-                                        value: 'caen',
-                                        label: 'Caen',
-                                    },
-                                ]}
-                            />
-                        </div>
-
-                    </div>
-                </div>
+                <FilterPanel events={event} setFilteredEvents={(events) => setEventData(events)}/>
                 <div className={styles.catalogueContainer}>
                     {eventData === null ?
                         <HandleError/>
                         :
                         <Flex justify={"center"} vertical={true} align={"center"} gap={12}>
-                            {eventData.map((event, index) => {
+                            {eventData.length > 0 ?
+                            eventData.map((event, index) => {
                                 return <EventDisplay event={event} editMode={false}/>
-                            })}
+                            })
+                            :
+                            <Title level={3}>Aucun événement trouvé</Title>
+                            }
                         </Flex>
                     }
                 </div>

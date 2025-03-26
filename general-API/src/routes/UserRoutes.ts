@@ -85,4 +85,24 @@ router.put("", async (req, res) => {
     }
 })
 
+router.delete("", authenticateJWT, async (req, res) => {
+    try {
+        console.log(`📤 [${Date.now()}] Sending request to delete user`);
+
+        // Utiliser la nouvelle méthode requestResponse
+        const response = await rabbitMQService.requestResponse(
+            "delete_user_by_id_queue",             // Queue de requête
+            { request: "deleteUser", id: req.body.id },    // Message
+            "delete_user_by_id_response_queue",    // Queue de réponse
+            1000                          // Timeout augmenté à 15 secondes
+        );
+
+        console.log(`📥 [${Date.now()}] Received response from microservice`);
+        res.status(200).json(response);
+    } catch (error :any) {
+        console.error(`❌ [${Date.now()}] Error deleting user:`, error);
+        res.status(500).json({ error: "Error deleting user", message: error.message });
+    }
+})
+
 export default router;

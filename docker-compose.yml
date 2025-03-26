@@ -1,0 +1,107 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    restart: always
+    networks:
+      - app-network
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  general-api:
+    build: ./general-API
+    container_name: general-api
+    restart: always
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgres://admin:password@postgres-db:5432/mydatabase
+      RABBITMQ_URL: amqp://rabbitmq
+    volumes:
+      - ./prisma:/app/prisma
+    networks:
+      - app-network
+
+  microservice-authentication:
+    build:
+      context: .
+      dockerfile: ./microservice-authentication/Dockerfile
+    container_name: microservice-authentication
+    restart: always
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "4001:4001"
+    environment:
+      DATABASE_URL: postgres://admin:password@postgres-db:5432/mydatabase
+      RABBITMQ_URL: amqp://rabbitmq
+    networks:
+      - app-network
+
+  microservice-user:
+    build:
+      context: .
+      dockerfile: ./microservice-user/Dockerfile
+    container_name: microservice-user
+    restart: always
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "4002:4002"
+    environment:
+      DATABASE_URL: postgres://admin:password@postgres-db:5432/mydatabase
+      RABBITMQ_URL: amqp://rabbitmq
+    volumes:
+      - ./prisma:/app/prisma
+    networks:
+      - app-network
+    command: ["sh", "-c", "npx prisma migrate deploy && npm run start"]
+
+  microservice-category:
+    build:
+      context: .
+      dockerfile: ./microservice-category/Dockerfile
+    container_name: microservice-category
+    restart: always
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "4003:4003"
+    environment:
+      DATABASE_URL: postgres://admin:password@postgres-db:5432/mydatabase
+      RABBITMQ_URL: amqp://rabbitmq
+    volumes:
+      - ./prisma:/app/prisma
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

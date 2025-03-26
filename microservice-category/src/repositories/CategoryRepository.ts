@@ -1,5 +1,5 @@
 import { Category } from "../Models/Category";
-import prisma from "../../../prisma";
+import prisma from "../../prisma";
 import {CategoryDTO} from "../Dtos/CategoryDTO";
 
 export class CategoryRepository {
@@ -15,7 +15,8 @@ export class CategoryRepository {
         return prisma.categories.create({ data: category });
     }
 
-    async update(id: string, data: Partial<CategoryDTO>): Promise<Category | null> {
+    async update(data: Category): Promise<Category | null> {
+        const id = data.id
         return prisma.categories.update({ where: { id }, data });
     }
 

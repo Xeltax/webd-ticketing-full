@@ -7,6 +7,7 @@ async function start() {
         await ReservationController.handleGetReservations();
         await ReservationController.handleCreateReservation();
         await ReservationController.handleGetUserReservations();
+        await ReservationController.handleDeleteReservation();
 
         process.on("SIGINT", async () => {
             console.log("\nGracefully shutting down...");
@@ -22,6 +23,9 @@ async function start() {
 
         await rabbitMQService.createQueue("create_reservation_queue");
         await rabbitMQService.createQueue("create_reservation_response_queue");
+
+        await rabbitMQService.createQueue("delete_reservation_queue");
+        await rabbitMQService.createQueue("delete_reservation_response_queue");
         console.log("🚀 Microservice Categories started!");
     } catch (error) {
         console.error("❌ Error starting microservice:", error);

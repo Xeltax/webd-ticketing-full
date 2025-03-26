@@ -1,5 +1,6 @@
-import { CategoryRepository } from "../Repositories/CategoryRepository";
+import { CategoryRepository } from "../repositories/CategoryRepository";
 import { CategoryDTO } from "../Dtos/CategoryDTO";
+import {Category} from "../Models/Category";
 
 export class CategoryService {
     private categoryRepository = new CategoryRepository();
@@ -16,8 +17,9 @@ export class CategoryService {
         return this.categoryRepository.save(data);
     }
 
-    async updateCategory(id: string, data: Partial<CategoryDTO>) {
-        return this.categoryRepository.update(id, data);
+    async updateCategory(id: string, data: Category) {
+        console.log("Updating category with id", id, "and data", data);
+        return this.categoryRepository.update(data);
     }
 
     async deleteCategory(id: string) {

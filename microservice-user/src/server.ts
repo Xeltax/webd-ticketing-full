@@ -1,4 +1,4 @@
-import { UserController } from "./controllers/UserController";
+import { UserController } from "./Controllers/UserController";
 import { rabbitMQService } from "./services/rabbitmqService";
 
 async function start() {
@@ -9,6 +9,7 @@ async function start() {
         await UserController.handleGetUserByEmail();
         await UserController.handleGetUserById();
         await UserController.handleUpdateUser();
+        await UserController.handleDeleteUser();
 
 
         process.on("SIGINT", async () => {
@@ -28,8 +29,12 @@ async function start() {
 
         await rabbitMQService.createQueue("create_users_queue");
         await rabbitMQService.createQueue("create_users_response_queue");
+
         await rabbitMQService.createQueue("update_user_by_id_queue");
         await rabbitMQService.createQueue("update_user_by_id_response_queue");
+
+        await rabbitMQService.createQueue("delete_user_by_id_queue");
+        await rabbitMQService.createQueue("delete_user_by_id_response_queue");
 
         console.log("🚀 Microservice Event started!");
     } catch (error) {
