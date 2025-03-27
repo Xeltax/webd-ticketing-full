@@ -8,7 +8,7 @@ dotenv.config();
 export class AuthenticationService {
     async login(credentials: AuthDTO, user : any): Promise<{ token: string; user: any }> {
         if (!user) {
-            throw new Error("Event does not exist");
+            throw new Error("User does not exist");
         }
         
         const isPasswordValid = await compare(credentials.password, user.password);

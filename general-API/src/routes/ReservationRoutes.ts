@@ -13,6 +13,14 @@ router.post("", async (req, res) => {
             "create_reservation_response_queue",
             1000
         );
+        console.log(`📤 [${Date.now()}] Sending request to send mail`);
+        const response = await rabbitMQService.requestResponse(
+            "send_mail_queue",
+            { request: "sendMail", reservation: reservation },
+            "send_mail_response_queue",
+            1000
+        );
+        console.log(response);
         res.status(200).json(reservation);
     } catch (error: any) {
         console.error(`❌ Error creating reservation:`, error);

@@ -46,6 +46,18 @@ export class ReservationRepository {
     async save(reservation: ReservationDTO): Promise<Reservation> {
         return prisma.reservations.create({
             data: reservation,
+            include : {
+                user : true,
+                event: {
+                    include: {
+                        categorie: true, // Inclure la catégorie de l'événement
+                        createdBy: true, // Inclure l'utilisateur qui a créé l'événement
+                        participants: true, // Inclure les participants
+                        tickets: true // Inclure tous les tickets associés
+                    }
+                },
+                ticket: true // Inclure les détails du ticket associé
+            }
         });
     }
 

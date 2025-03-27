@@ -162,6 +162,21 @@ services:
       - ./prisma:/app/prisma
     networks:
       - app-network
+  microservice-mailer:
+    build:
+      context: .
+      dockerfile: ./microservice-mailer/Dockerfile
+    container_name: microservice-mailer
+    restart: always
+    depends_on:
+      - postgres
+      - rabbitmq
+    ports:
+      - "4007:4007"
+    environment:
+      MAILER_TOKEN: 1028f33fc01e95d4a27b8c790099d2ef
+    networks:
+      - app-network
 
 volumes:
   postgres_data:
