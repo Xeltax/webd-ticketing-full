@@ -55,6 +55,22 @@ Cela permet de **bien séparer les communications**, **éviter les conflits** et
 
 ---
 
+## 🛫 **Navigation**
+
+Pour facilité le test de l'application des données sont insérées automatiquement dans la base de données. Voici un identifiant administrateur pour vous connecter :
+
+Login : `admin@example.com`
+
+MDP : `admin123`
+
+Pour tester pleinement il faudra quand même créer un compte utilisateur.
+
+Pour tester l'ajout d'événements, il faudra aller dans le profile de l'utilisateur (http://localhost:3000/settings/profile) et cliquer sur le bouton **"Devenir organisateur"**.
+
+Cela permettra de débloquer la possibilité d'ajouter des événements.
+
+---
+
 ## 🔑 **Authentification**
 
 L'authentification est gérée via **JWT**. Certaines routes nécessitent un **token d'accès**.

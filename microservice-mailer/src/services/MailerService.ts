@@ -18,7 +18,8 @@ export const sendMail = async () => {
     console.log("📨 Mailer service started!");
     await rabbitMQService.consumeMessages("send_mail_queue", async (msg, properties) => {
         const replyTo = properties.replyTo || "send_mail_response_queue";
-        const userEmail = msg.reservation.user.email;
+        console.log(msg.reservation)
+        const userEmail = msg.reservation.user?.email || "";
         console.log(`📤 [${Date.now()}] Sending mail to ${userEmail}`);
         const mailSubject: string = "Reservation pour l'événement " + msg.reservation.event.name;
         const mailText: string = "Bonjour,\n\n" +

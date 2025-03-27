@@ -88,7 +88,7 @@ services:
       - ./prisma:/app/prisma
     networks:
       - app-network
-    command: ["sh", "-c", "npx prisma migrate deploy && npm run start"]
+    command: ["sh", "-c", "npx prisma migrate deploy && npx prisma db seed && npm run start"]
 
   microservice-category:
     build:
