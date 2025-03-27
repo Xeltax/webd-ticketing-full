@@ -1,0 +1,307 @@
+{
+	"info": {
+		"_postman_id": "c06aed6f-d14d-4bab-851a-f45c9cadaf48",
+		"name": "WebD-Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40051205"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GetUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Xel\",\r\n    \"lastName\": \"Tax\",\r\n    \"email\": \"xeltaxlebg@gmail.com\",\r\n    \"phone\": \"0687458741\",\r\n    \"password\": \"azerty\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"xeltaxlebg@gmail.com\",\r\n    \"password\" : \"azerty\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Jhon\",\r\n    \"lastName\": \"Doe\",\r\n    \"email\": \"jhon.doe@gmail.com\",\r\n    \"phone\": \"0687458741\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "GetCategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateCategory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhlbHRheGxlYmdAZ21haWwuY29tIiwiaWQiOiIwZmM2OTI2NS05NDZiLTQ1ZjItOTE4NS0zMDkxY2VjZTY2NjUiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzQzMDYwOTA3LCJleHAiOjE3NDMwNjQ1MDd9.vbML6qXQaEI_OmA2hXfOYHkDhgE4Tgq-bZpMGaAFoq4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Course\",\r\n    \"color\" : \"#ff0000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event",
+			"item": [
+				{
+					"name": "GetEvents",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhlbHRheGxlYmdAZ21haWwuY29tIiwiaWQiOiIwZmM2OTI2NS05NDZiLTQ1ZjItOTE4NS0zMDkxY2VjZTY2NjUiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzQzMDYwOTA3LCJleHAiOjE3NDMwNjQ1MDd9.vbML6qXQaEI_OmA2hXfOYHkDhgE4Tgq-bZpMGaAFoq4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateEvent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Grand prix de monaco\",\r\n    \"description\": \"Une course incroyable au coeur meme de monaco\",\r\n    \"date\": \"2026-07-10T15:00:00.000Z\",\r\n    \"image\" : \"https://www.groupecouleur.com/media/catalog/product/cache/45740798faa23173056acdb4f3a99624/g/p/gp-monaco.jpg\",\r\n    \"bannerUrl\" : [\r\n        \"https://cdn-3.motorsport.com/images/amp/0qXyq7p6/s1000/formula-1-monaco-gp-2022-sergi-2.jpg\",\r\n        \"https://images.ctfassets.net/43cg184ejz07/1ETeiT7vIfxPNDxdgGxTZj/7b80a0fdd329f56a0997272f1f9764fe/F1_Monaco_Grand_Prix_2021.jpg?w=1200&h=630&fit=fill&q=70\",\r\n        \"https://www.monaco-tribune.com/wp-content/uploads/2020/11/historic-monaco-grand-prix-min.jpg\"\r\n    ],\r\n    \"location\": \"Monaco\",\r\n    \"createdById\" : \"0fc69265-946b-45f2-9185-3091cece6665\",\r\n    \"categorieId\": \"fd4d4ea6-da37-4969-9054-01acfca261b6\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tickets",
+			"item": [
+				{
+					"name": "AddTicketToEvent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"1 Place\",\r\n    \"price\": 5,\r\n    \"eventId\": \"229e5985-1dbf-454d-9987-4c3b124df6d1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/ticket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"ticket"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reservation",
+			"item": [
+				{
+					"name": "CreateReservation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"0fc69265-946b-45f2-9185-3091cece6665\",\r\n    \"eventId\": \"229e5985-1dbf-454d-9987-4c3b124df6d1\",\r\n    \"ticketId\": \"119ca12e-5464-4dfa-87ed-ee4a8f32d1e6\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/reservation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

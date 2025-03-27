@@ -123,6 +123,10 @@ L'authentification est gérée via **JWT**. Certaines routes nécessitent un **t
   }
   ```
 
+Une collection Postman est disponible pour tester les routes de l'API à la racine du projet : 
+
+`WebD-Project.postman_collection.json`
+
 ---
 
 ## 🛠️ **Technologies Utilisées**
@@ -144,8 +148,6 @@ L'authentification est gérée via **JWT**. Certaines routes nécessitent un **t
 
 ---
 
-## 📄 **Conclusion**
+## 📄 **Schéma**
 
-Ce projet met en œuvre une architecture **scalable, performante et modulaire**, idéale pour un système de gestion d’événements avec microservices.
-
-🔥 **Déployez le projet et commencez à explorer Webd Ticketing Full dès maintenant !** 🚀
+![Webd Ticketing Full Schema](schema.png)
