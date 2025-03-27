@@ -1,5 +1,7 @@
 # Webd Ticketing Full
 
+Lien du repository : https://github.com/Xeltax/webd-ticketing-full
+
 ## 📌 Introduction
 
 Webd Ticketing Full est une application basée sur une architecture **microservices** conçue pour la gestion d'événements et de tickets. Ce projet est construit en **Node.js**, **Express**, **Next.js** et utilise **Prisma ORM** avec **PostgreSQL** comme base de données relationnelle. Il exploite **RabbitMQ** pour la communication entre microservices et **JWT** pour l'authentification et la protection des routes.
